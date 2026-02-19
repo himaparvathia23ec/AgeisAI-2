@@ -1,6 +1,3 @@
-Paste this exact content into the big “Editing README.md file contents” textbox, replacing everything there, then click “Commit changes”:
-
-```markdown
 # 🛡️ AegisAI  
 AI‑Powered Automated Email Security Assistant  
 
