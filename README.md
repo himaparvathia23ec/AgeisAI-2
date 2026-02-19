@@ -12,18 +12,6 @@ An intelligent machine learning–driven email protection system that detects, a
 
 ---
 
-## 📸 Screenshots
-
-> Add your images to the repo (e.g., `assets/`) and update the paths below.
-
-- API running (FastAPI docs):  
-  ![AegisAI API](assets/aegisai-api.png)
-
-- Dashboard / Logs UI (if available):  
-  ![AegisAI Dashboard](assets/aegisai-dashboard.png)
-
----
-
 ## 🚀 Overview
 
 **AegisAI** is a full‑stack AI security application designed to automatically detect and handle malicious emails using Machine Learning and backend automation.  
