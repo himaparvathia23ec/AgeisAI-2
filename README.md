@@ -226,4 +226,3 @@ AegisAI aims to evolve into a scalable AI‑powered cybersecurity assistant capa
 
 AegisAI is not just a spam classifier —  
 it is an integrated AI security system combining machine learning, backend automation, API architecture, and real‑time notifications to create a proactive email defense mechanism.
-```
