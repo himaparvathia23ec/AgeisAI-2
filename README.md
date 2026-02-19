@@ -1,7 +1,26 @@
 # 🛡️ AegisAI  
 AI‑Powered Automated Email Security Assistant  
 
+🚨 Protecting users from phishing attacks with real-time AI‑driven email threat detection.
+
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![Status](https://img.shields.io/badge/Status-Active-success)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
 An intelligent machine learning–driven email protection system that detects, analyzes, and neutralizes spam and phishing threats in real time.
+
+---
+
+## 📸 Screenshots
+
+> Add your images to the repo (e.g., `assets/`) and update the paths below.
+
+- API running (FastAPI docs):  
+  ![AegisAI API](assets/aegisai-api.png)
+
+- Dashboard / Logs UI (if available):  
+  ![AegisAI Dashboard](assets/aegisai-dashboard.png)
 
 ---
 
@@ -17,7 +36,7 @@ It functions as a background AI‑powered protection layer, minimizing phishing 
 
 ## 🧠 Problem Statement
 
-Phishing and spam emails remain one of the leading cybersecurity threats worldwide. Users often rely on traditional filters that:  
+Phishing and spam emails remain one of the leading cybersecurity threats worldwide. Users often rely on traditional filters that:
 
 - Lack transparency  
 - Fail to provide confidence levels  
