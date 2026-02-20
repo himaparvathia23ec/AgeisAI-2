@@ -7,8 +7,17 @@ from typing import Any
 
 import joblib
 import numpy as np
+from streamlit import text
 
-from utils import find_suspicious_words, risk_level_from_confidence
+from utils import (
+    find_suspicious_words,
+    risk_level_from_confidence,
+    extract_urls,
+    get_domain,
+    url_risk_score,
+    severity_level,
+)
+
 
 logger = logging.getLogger("aegisai")
 
@@ -19,6 +28,14 @@ class AnalyzeResult:
     confidence: float
     risk_level: str
     suspicious_words: list[str]
+
+    # NEW FIELDS
+    urls_detected: list[str]
+    domains: list[str]
+    url_risk_score: float
+    final_risk_score: float
+    severity: str
+
 
 
 class ModelLoadError(RuntimeError):
@@ -96,12 +113,37 @@ class MLService:
         X = self.vectorizer.transform([text])
         confidence, pred = self._confidence_and_pred(X)
         confidence = float(np.clip(confidence, 0.0, 1.0))
+        # =========================
+        # URL EXTRACTION + SCORING
+        # =========================
+
+        urls = extract_urls(text)
+
+        domains = []
+        total_url_risk = 0.0
+
+        for url in urls:
+            domains.append(get_domain(url))
+            total_url_risk += url_risk_score(url)
+
+        # Combine ML confidence + URL risk
+        final_risk = min(confidence + total_url_risk, 1.0)
+
+        # New severity system (stronger than old risk_level)
+        severity = severity_level(final_risk)
+
 
         return AnalyzeResult(
             prediction=int(pred),
             confidence=confidence,
             risk_level=risk_level_from_confidence(confidence),
             suspicious_words=suspicious,
+
+            urls_detected=urls,
+            domains=domains,
+            url_risk_score=total_url_risk,
+            final_risk_score=final_risk,
+            severity=severity,
         )
 
 

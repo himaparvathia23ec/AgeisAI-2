@@ -17,6 +17,15 @@ class AnalyzeRequest(BaseModel):
 class AnalyzeResponse(BaseModel):
     prediction: int
     confidence: float
+    risk_level: str
+    suspicious_words: list[str]
+
+    urls_detected: list[str]
+    domains: list[str]
+    url_risk_score: float
+    final_risk_score: float
+    severity: str
+
 
 
 app = FastAPI(
@@ -42,9 +51,17 @@ async def analyze_endpoint(payload: AnalyzeRequest) -> AnalyzeResponse:
         raise HTTPException(status_code=500, detail="Internal server error") from exc
 
     return AnalyzeResponse(
-        prediction=result.prediction,
-        confidence=float(result.confidence),
-    )
+    prediction=result.prediction,
+    confidence=float(result.confidence),
+    risk_level=result.risk_level,
+    suspicious_words=result.suspicious_words,
+
+    urls_detected=result.urls_detected,
+    domains=result.domains,
+    url_risk_score=float(result.url_risk_score),
+    final_risk_score=float(result.final_risk_score),
+    severity=result.severity,
+)
 
 
 @app.get("/", include_in_schema=False)

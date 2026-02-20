@@ -82,3 +82,60 @@ def safe_get_env(name: str, default: str | None = None) -> str | None:
     v = v.strip()
     return v if v else default
 
+def safe_get_env(name: str, default: str | None = None) -> str | None:
+    v = os.getenv(name)
+    if v is None:
+        return default
+    v = v.strip()
+    return v if v else default
+
+
+# ===============================
+# URL EXTRACTION + RISK SCORING
+# ===============================
+
+from urllib.parse import urlparse
+
+def extract_urls(text: str) -> list[str]:
+    if not text:
+        return []
+    url_pattern = r'https?://[^\s]+'
+    return re.findall(url_pattern, text)
+
+def get_domain(url: str) -> str:
+    try:
+        parsed = urlparse(url)
+        return parsed.netloc
+    except Exception:
+        return ""
+
+def url_risk_score(url: str) -> float:
+    score = 0.0
+
+    # 1️⃣ suspicious keywords in URL
+    for kw in SUSPICIOUS_KEYWORDS:
+        if kw in url.lower():
+            score += 0.1
+
+    # 2️⃣ numbers inside URL (like paypa1)
+    if any(char.isdigit() for char in url):
+        score += 0.1
+
+    # 3️⃣ IP-based URLs (very suspicious)
+    if re.match(r"https?://\d+\.\d+\.\d+\.\d+", url):
+        score += 0.3
+
+    return min(score, 0.5)
+
+
+def severity_level(score: float) -> str:
+    if score >= 0.85:
+        return "CRITICAL"
+    elif score >= 0.65:
+        return "HIGH"
+    elif score >= 0.40:
+        return "WARNING"
+    else:
+        return "LOW"
+
+
