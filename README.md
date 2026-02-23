@@ -1,235 +1,165 @@
-# 🛡️ AegisAI  
-AI‑Powered Automated Email Security Assistant  
+# AegisAI
 
-🚨 Protecting users from phishing attacks with real-time AI‑driven email threat detection.
-
-![Python](https://img.shields.io/badge/Python-3.12-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
-![Status](https://img.shields.io/badge/Status-Active-success)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
-
-An intelligent machine learning–driven email protection system that detects, analyzes, and neutralizes spam and phishing threats in real time.
+AI-powered email security assistant that detects phishing and spam, scores risk, and can move high-risk messages to Gmail Trash with optional SMS alerts.
 
 ---
 
-## 🚀 Overview
+## Overview
 
-**AegisAI** is a full‑stack AI security application designed to automatically detect and handle malicious emails using Machine Learning and backend automation.  
+AegisAI is a full-stack app that:
 
-Once a user grants Gmail access, AegisAI continuously monitors incoming emails, analyzes their content using a trained TF‑IDF + Logistic Regression model, calculates a risk score, and automatically takes action on suspicious emails — while notifying the user instantly.  
+- Connects to Gmail via OAuth and scans **inbox and spam** in one unified list
+- Analyzes each message with an ML model (TF-IDF + Logistic Regression) and URL risk
+- Treats **spam-folder messages** as high risk and **risk above 60%** as high risk
+- Moves **high-risk** emails to Gmail Trash and optionally sends an **SMS** (Twilio) when any are trashed
+- Shows a **Security Dashboard** with recent incidents, risk levels, and an **Investigate** view (sender, subject, risk %)
 
-It functions as a background AI‑powered protection layer, minimizing phishing risks and eliminating manual spam filtering.
-
----
-
-## 🧠 Problem Statement
-
-Phishing and spam emails remain one of the leading cybersecurity threats worldwide. Users often rely on traditional filters that:
-
-- Lack transparency  
-- Fail to provide confidence levels  
-- Do not notify users proactively  
-- Require manual review  
-
-AegisAI addresses these limitations by combining AI classification, automation, and user transparency into one integrated system.
+No separate spam folder in the app: inbox and spam appear together; spam messages are tagged with a “Spam” badge and always shown as high risk.
 
 ---
 
-## ⚙️ How AegisAI Works
+## Tech Stack
 
-```text
-Incoming Email
-        ↓
-Gmail API (Authorized Access)
-        ↓
-Backend (FastAPI Server)
-        ↓
-TF‑IDF Text Vectorization
-        ↓
-Logistic Regression Classifier
-        ↓
-Prediction + Confidence Score
-        ↓
-If Spam → Move to Bin / Quarantine
-        ↓
-Log Detection Event
-        ↓
-Notify User (App + SMS)
-```
+| Layer | Stack |
+|------|--------|
+| **Backend** | Python 3.x, FastAPI, Uvicorn |
+| **ML** | scikit-learn, TF-IDF, Logistic Regression, joblib |
+| **Integrations** | Gmail API (OAuth), Twilio (SMS) |
+| **Frontend** | React 19, Vite, TypeScript, Tailwind CSS, Motion |
 
 ---
 
-## 🔍 Key Features
-
-- 🤖 Machine Learning–Based Spam Detection  
-- 🔐 Secure Gmail API Integration  
-- 📊 Confidence Score (Risk Probability)  
-- 🗑 Automatic Spam Removal / Quarantine  
-- 🔔 Real‑Time Notifications (App + SMS)  
-- 📈 Dashboard with Detection Analytics  
-- 🧾 Spam History & Activity Logs  
-- 🛠 REST API Architecture  
-
----
-
-## 🏗 Tech Stack
-
-### 🧠 Machine Learning
-
-- Scikit‑Learn  
-- TF‑IDF Vectorization  
-- Logistic Regression  
-- Joblib (Model Serialization)  
-
-### ⚙ Backend
-
-- FastAPI  
-- Uvicorn  
-- Python 3.x  
-- RESTful API Design  
-
-### 🔗 Integration
-
-- Gmail API  
-- Notification Service (SMS + App Alerts)  
-
-### 🛠 Tools
-
-- Git & GitHub  
-- VS Code / Cursor  
-- PowerShell / Terminal  
-
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```text
 AegisAI/
-│
 ├── backend/
-│   ├── main.py
-│   ├── ml_service.py
+│   ├── main.py           # FastAPI app, Gmail + Twilio + /fetch-emails, /analyze
+│   ├── ml_service.py     # ML model load, analyze_email(), risk scoring
 │   ├── utils.py
 │   ├── requirements.txt
+│   ├── .env              # Google + Twilio credentials (not committed)
 │   ├── model.pkl
 │   └── vectorizer.pkl
-│
+├── frontend/
+│   ├── src/
+│   │   ├── App.tsx       # Landing, onboarding, dashboard, pages (Home, Threats, Analysis, Emails in Bin, Settings)
+│   │   └── pages/
+│   │       └── Threats.tsx
+│   ├── package.json
+│   └── ...
 └── README.md
 ```
 
 ---
 
-## 🧪 Machine Learning Details
+## Prerequisites
 
-- **Algorithm Used:** Logistic Regression  
-- **Feature Extraction:** TF‑IDF (Term Frequency–Inverse Document Frequency)  
-- **Training Dataset:** Labeled email dataset (spam / safe)  
-
-**Output:**
-
-- `prediction` → `0` (Safe) / `1` (Spam)  
-- `confidence` → Probability score (risk level)  
-
-### Example API Response
-
-```json
-{
-  "prediction": 1,
-  "confidence": 0.93
-}
-```
+- **Python 3.x** (backend)
+- **Node.js** and npm (frontend)
+- **Google Cloud** project with Gmail API enabled and OAuth 2.0 credentials (Web application)
+- **Twilio** account (optional, for SMS when high-risk emails are trashed)
 
 ---
 
-## ▶ Running the Backend Locally
+## Environment Setup
 
-1️⃣ **Navigate to backend folder**
+### Backend (`backend/.env`)
+
+```env
+# Required for Gmail OAuth
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+
+# Optional for SMS when high-risk emails are moved to trash
+TWILIO_ACCOUNT_SID=your_twilio_sid
+TWILIO_AUTH_TOKEN=your_twilio_token
+TWILIO_PHONE_NUMBER=+1234567890
+
+# For production deployment only (optional for local)
+REDIRECT_URI=https://your-backend-url/auth/gmail/callback
+FRONTEND_URL=https://your-frontend-url
+```
+
+- **Google**: Create OAuth 2.0 credentials (Web application), add `http://127.0.0.1:8000/auth/gmail/callback` as authorized redirect URI (and your production callback URL when deployed).
+- **Twilio**: If omitted, the app still runs; SMS is skipped and a log line is written.
+
+### Frontend (`frontend/.env` for production)
+
+- `VITE_API_URL` = your deployed backend URL (e.g. `https://aegisai-api.onrender.com`). Omit for local dev (defaults to `http://127.0.0.1:8000`).
+
+---
+
+## Making the site public
+
+To let anyone use the app in a browser without running code locally, deploy the backend and frontend and set the env vars above. See **[DEPLOYMENT.md](DEPLOYMENT.md)** for step-by-step instructions (Render/Railway + Vercel/Netlify, Google OAuth, and Docker).
+
+---
+
+## Running the App (local)
+
+### 1. Backend
 
 ```bash
 cd backend
-```
-
-2️⃣ **Install dependencies**
-
-```bash
 pip install -r requirements.txt
-```
-
-3️⃣ **Run the server**
-
-```bash
 uvicorn main:app --reload
 ```
 
-4️⃣ **Open API Documentation**
+- API: **http://127.0.0.1:8000**
+- Docs: **http://127.0.0.1:8000/docs**
 
-Open in browser:  
-http://127.0.0.1:8000/docs
+### 2. Frontend
 
----
-
-## 📡 API Endpoint
-
-**POST** `/analyze`  
-
-### Request Body
-
-```json
-{
-  "content": "Urgent! Verify your bank account immediately."
-}
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-### Response
+- App: **http://localhost:3000**
 
-```json
-{
-  "prediction": 1,
-  "confidence": 0.92
-}
-```
+### 3. Using the app
 
----
-
-## 📊 Why AegisAI Stands Out
-
-Unlike traditional spam filters, AegisAI:
-
-- Provides probability‑based risk scoring  
-- Automatically removes malicious emails  
-- Notifies users instantly  
-- Maintains transparent detection logs  
-- Integrates ML directly into backend automation  
-
-It transforms passive spam filtering into **active** AI‑driven protection.
+1. Open **http://localhost:3000**
+2. Sign in with Google (redirects to Gmail OAuth, then back to the dashboard with token in URL)
+3. **Quick Scan** fetches inbox + spam, runs ML + URL risk, and moves high-risk messages to Gmail Trash
+4. **Settings**: optional phone number for SMS when high-risk emails are trashed
+5. **Recent Incidents**: one list for all messages; spam rows show a “Spam” badge and HIGH risk
+6. **Investigate**: click to see sender, subject, risk %, and “From spam folder” when applicable
 
 ---
 
-## 🔮 Future Enhancements
+## API Summary
 
-- 🔍 Suspicious URL Extraction & Analysis  
-- 📈 Threat Trend Visualization Dashboard  
-- 🧠 Continuous Model Retraining Pipeline  
-- 📱 Full Mobile Application Deployment  
-- 🏢 Enterprise Email Gateway Version  
-
----
-
-## 👥 Team Responsibilities
-
-- **Machine Learning Engineer** – Model training & optimization  
-- **Backend Developer** – API integration & automation logic  
-- **Frontend/App Developer** – Dashboard & user interface  
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Health check |
+| GET | `/auth/gmail/url` | Returns Google OAuth URL |
+| GET | `/auth/gmail/callback?code=...` | OAuth callback; redirects to frontend with token |
+| POST | `/fetch-emails` | Body: token data + optional `phone_number`. Fetches inbox + spam, analyzes, trashes high-risk, optionally sends SMS. Returns `user_email`, `emails`, `sms_sent` |
+| POST | `/analyze` | Body: `{ "content": "..." }`. Returns ML + URL risk (prediction, confidence, risk_level, severity, URLs, etc.) |
 
 ---
 
-## 🏆 Vision
+## Risk Rules (Backend)
 
-AegisAI aims to evolve into a scalable AI‑powered cybersecurity assistant capable of protecting individuals and organizations from evolving phishing and email‑based threats.
+- **Spam folder**: Always treated as **high risk** (risk % = 95, moved to Trash).
+- **Others**: Risk from ML model. If **risk % > 60**, treated as **high risk** (moved to Trash).
+- High-risk messages are moved to Gmail Trash in the same run; if `phone_number` is present and Twilio is configured, one SMS is sent per scan when any message is trashed.
 
 ---
 
-## ⭐ Conclusion
+## Frontend Pages
 
-AegisAI is not just a spam classifier —  
-it is an integrated AI security system combining machine learning, backend automation, API architecture, and real‑time notifications to create a proactive email defense mechanism.
+- **Home**: Security Dashboard, Quick Scan, stats (scanned, threats, safe), Recent Incidents list with risk and “Investigate”.
+- **Threats**: Threat-focused view of the same email list.
+- **Analysis**: Paste text to check for phishing (AI + URL risk); “Analyze” button (calls `/analyze` when wired).
+- **Emails in Bin**: List of emails moved to Trash in this session; empty state explains that high-risk emails are moved automatically.
+- **Settings**: Save phone number for SMS alerts (stored in `localStorage`, sent with Quick Scan).
+
+---
+
+## License
+
+MIT (or as specified in the repository).
