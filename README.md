@@ -49,7 +49,7 @@ AegisAI/
 │   ├── package.json
 │   └── ...
 └── README.md
-```[page:1]
+```
 
 ---
 
@@ -81,7 +81,7 @@ TWILIO_PHONE_NUMBER=+1234567890
 # For production deployment only (optional for local)
 REDIRECT_URI=https://your-backend-url/auth/gmail/callback
 FRONTEND_URL=https://your-frontend-url
-```[page:1]
+```
 
 - **Google**: Create OAuth 2.0 credentials (Web application) and add  
   `http://127.0.0.1:8000/auth/gmail/callback` as an authorized redirect URI (plus your production callback URL when deployed).[page:1]
@@ -91,9 +91,9 @@ FRONTEND_URL=https://your-frontend-url
 
 ```env
 VITE_API_URL=https://your-deployed-backend-url   # e.g. https://aegisai-api.onrender.com
-```[page:1]
+```
 
-For local development, you can omit this (defaults to `http://127.0.0.1:8000`).[page:1]
+For local development, you can omit this (defaults to `http://127.0.0.1:8000`).
 
 ---
 
@@ -118,7 +118,7 @@ See **`DEPLOYMENT.md`** for detailed step‑by‑step deployment instructions (R
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload
-```[page:1]
+```
 
 - API base URL: **http://127.0.0.1:8000**.[page:1]
 - Interactive API docs: **http://127.0.0.1:8000/docs**.[page:1]
@@ -129,7 +129,7 @@ uvicorn main:app --reload
 cd frontend
 npm install
 npm run dev
-```[page:1]
+```
 
 - App URL: **http://localhost:3000**.[page:1]
 
