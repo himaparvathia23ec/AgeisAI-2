@@ -70,13 +70,13 @@ AegisAI/
 
 ```env
 # Required for Gmail OAuth
-GOOGLE_CLIENT_ID=your_client_id
-GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_CLIENT_ID=705542226066-6nsigsnm20f88u8g1d109p06ub3sqa1n.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
 
 # Optional for SMS when high-risk emails are moved to trash
-TWILIO_ACCOUNT_SID=your_twilio_sid
-TWILIO_AUTH_TOKEN=your_twilio_token
-TWILIO_PHONE_NUMBER=+1234567890
+TWILIO_ACCOUNT_SID=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
+TWILIO_AUTH_TOKEN=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
+TWILIO_PHONE_NUMBER=+18312573782
 
 # For production deployment only (optional for local)
 REDIRECT_URI=https://your-backend-url/auth/gmail/callback
@@ -84,8 +84,8 @@ FRONTEND_URL=https://your-frontend-url
 ```
 
 - **Google**: Create OAuth 2.0 credentials (Web application) and add  
-  `http://127.0.0.1:8000/auth/gmail/callback` as an authorized redirect URI (plus your production callback URL when deployed).[page:1]
-- **Twilio**: If Twilio variables are omitted, the app still runs; SMS sending is skipped and a log entry is written instead.[page:1]
+  `http://127.0.0.1:8000/auth/gmail/callback` as an authorized redirect URI (plus your production callback URL when deployed).
+- **Twilio**: If Twilio variables are omitted, the app still runs; SMS sending is skipped and a log entry is written instead.
 
 ### Frontend – `frontend/.env` (for production)
 
