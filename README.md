@@ -1,6 +1,6 @@
 # AegisAI – AI Email Security Assistant
 
-AegisAI is an **AI-powered email security assistant** that detects phishing and spam, scores risk, and can automatically move high‑risk messages to Gmail Trash, with optional SMS alerts via Twilio.[page:1]
+AegisAI is an **AI-powered email security assistant** that detects phishing and spam, scores risk, and can automatically move high‑risk messages to Gmail Trash, with optional SMS alerts via Twilio.
 
 ---
 
