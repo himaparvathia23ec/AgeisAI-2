@@ -8,11 +8,11 @@ AegisAI is an **AI-powered email security assistant** that detects phishing and 
 
 AegisAI is a full‑stack app that:
 
-- Connects to Gmail via OAuth and scans **Inbox and Spam** in a single unified view.[page:1]
-- Analyzes each message with an ML model (**TF‑IDF + Logistic Regression**) and URL‑based risk checks.[page:1]
-- Treats **Spam-folder messages** as high risk and any message with **risk above 60%** as high risk.[page:1]
-- Automatically moves **high‑risk** emails to Gmail Trash and can send an **SMS alert** (Twilio) when any are trashed.[page:1]
-- Displays a **Security Dashboard** with recent incidents, risk levels, and an **Investigate** view (sender, subject, risk %).[page:1]
+- Connects to Gmail via OAuth and scans **Inbox and Spam** in a single unified view.
+- Analyzes each message with an ML model (**TF‑IDF + Logistic Regression**) and URL‑based risk checks.
+- Treats **Spam-folder messages** as high risk and any message with **risk above 60%** as high risk.
+- Automatically moves **high‑risk** emails to Gmail Trash and can send an **SMS alert** (Twilio) when any are trashed.
+- Displays a **Security Dashboard** with recent incidents, risk levels, and an **Investigate** view (sender, subject, risk %).
 
 There is no separate spam folder inside the app: Inbox and Spam appear together; spam messages are tagged with a “Spam” badge and are always shown as high risk.[page:1]
 
